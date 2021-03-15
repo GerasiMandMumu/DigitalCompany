@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <title>Услуги</title>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/services.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+  </head>
+  <body>
+
+    <div class="header">   
+        <div class="d-flex">
+            <a href="account">
+                <div class="user-name">
+                {{user.first_name}}<i class="bi bi-person" style="font-size: 2rem;"></i>
+                </div>
+            </a>
+            <div class="container d-flex justify-content-end" id="app">
+                <div class="form-group">
+                    <button class="btn btn-primary" @click.prevent="exit = !exit">
+                        Выйти
+                    </button>
+                </div>
+                
+                <div class="customModal" v-if="exit">
+                    <div class="customModalTitle">
+                        <button class="close" @click.prevent="exit = !exit">
+                            &times;
+                        </button>
+                        Вы действительно хотите выйти ?
+                    </div>
+
+                    <div class="customModalFooter row">   
+                        <div class="col-6">
+                            <form method="POST" action="main">       
+                                {% csrf_token %}                   
+                                <button class="btn btn-primary">Да</button>
+                            </form>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-primary" @click.prevent="exit = !exit">
+                                Нет
+                            </button>
+                        </div>
+                    </div>
+
+                </div>       
+            </div>
+        </div>
+    </div>
+
+
+    <div class = "main">
+        <div class="container">
+            <div class="navigation">
+                <div class="row">
+                    <div class="col">
+                        <a href="polygraph_service">
+                            <div class="block"><i class="bi bi-printer" style="font-size: 2rem;"></i>
+                                Полиграфические услуги</div>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="patent_service">
+                            <div class="block"><i class="bi bi-gear-wide-connected" style="font-size: 2rem;"></i>
+                                Патентные услуги</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="row">
+                    <div class="col-3 image-item">
+                        <img src="{% static 'images/print.png' %}" width="100%" height="100%" alt="Полиграфические услуги">
+                    </div>
+                    <div class="col-3 image-item">
+                        <img src="{% static 'images/print-2.jpg' %}" width="100%" height="100%" alt="Полиграфические услуги">
+                    </div>
+                    <div class="col-3 image-item">
+                        <img src="{% static 'images/patent_4.jpg' %}" width="100%" height="100%" alt="Патентные услуги">
+                    </div>
+                    <div class="col-3 image-item">
+                        <img src="{% static 'images/patent_3.jpg' %}" width="100%" height="100%" alt="Патентные услуги">
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <i class="bi bi-justify-left" style="font-size: 2rem;"></i>
+                        Всегда в наличии журналы учета для служб охраны труда, кадровых служб, бухгалтерии, 
+                        общие и специальные журналы работ для строительно-монтажных организаций и др.
+                        В продаже широкий ассортимент готовой бланочной продукции.
+                        Ознакомиться с полным перечнем журнальной 
+                        и бланочной продукции можно на этой странице.
+                    </div>
+                    <div class="col-6">
+                        <i class="bi bi-justify-left" style="font-size: 2rem;"></i>
+                        Услуги отдела осуществляются под руководством 
+                        патентного поверенного Л.С. Стригаевой, 
+                        рег. № 387 в Государственном Реестре РФ.
+                        Интеллектуальная собственность (ИС) - 
+                        права гражданина или юридического лица, относящиеся к литературным, 
+                        художественным и научным произведениям, исполнительской деятельности, 
+                        изобретениям, научным открытиям, промышленным образцам, товарным знакам, 
+                        знакам обслуживания, фирменным наименованиям и коммерческим обозначениям, 
+                        к защите против недобросовестной конкуренции, а также все другие права,
+                        относящиеся к интеллектуальной деятельности в производственной, научной, 
+                        литературной и художественной областях.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="footer">
+        <div class="d-flex justify-content-center">
+            2020 Copyright:
+            <a href="mailto:40cnti@rosenergo.gov.ru"><div class="footer-mail">40cnti@rosenergo.gov.ru</div></a>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/vue"></script>
+    <script src="{% static 'js/account.js' %}"></script>
+
+  </body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <title>Полиграфические услуги</title>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/polygraph_service.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+  </head>
+  <body>
+
+    <div class="header">   
+        <div class="d-flex">
+            <a href="account">
+                <div class="user-name">
+                {{user.first_name}}<i class="bi bi-person" style="font-size: 2rem;"></i>
+                </div>
+            </a>
+            <div class="container d-flex justify-content-end" id="app">
+                <div class="form-group">
+                    <button class="btn btn-primary" @click.prevent="exit = !exit">
+                        Выйти
+                    </button>
+                </div>
+                
+                <div class="customModal" v-if="exit">
+                    <div class="customModalTitle">
+                        <button class="close" @click.prevent="exit = !exit">
+                            &times;
+                        </button>
+                        Вы действительно хотите выйти ?
+                    </div>
+
+                    <div class="customModalFooter row">   
+                        <div class="col-6">
+                            <form method="POST" action="main">    
+                                {% csrf_token %}                      
+                                <button class="btn btn-primary">Да</button>
+                            </form>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-primary" @click.prevent="exit = !exit">
+                                Нет
+                            </button>
+                        </div>
+                    </div>
+
+                </div>       
+            </div>
+        </div>
+    </div>
+
+
+    <div class = "main">
+        <div class="container-fluid">
+            <div class="head-1 d-flex justify-content-center align-items-center">
+                <i class="bi bi-printer" style="font-size: 2rem; "></i> Полиграфические услуги
+            </div>
+            <div class="row">
+                <div class="col-7"> 
+
+                    <div class="content">
+                    <div class="row"><div class="col">Тиражирование на ризографе</div></div>
+                    <div class="row"><div class="col">Копировально-множительные работы</div></div>
+                    <div class="row"><div class="col">Изготовление брошюр, различных бланков и журналов учета</div></div>
+                    <div class="head-2 d-flex justify-content-center align-items-center">
+                        <i class="bi bi-pencil" style="font-size: 2rem;"></i>Редакционно-издательские услуги:
+                    </div>                   
+                    <div class="row"><div class="col">Книги, брошюры, учебники</div></div>                   
+                    <div class="row"><div class="col">Сборники по педагогической, научной, методической тематике</div></div>               
+                    <div class="row"><div class="col">Монографии, материалы конференций</div></div>                    
+                    <div class="row"><div class="col">Корректура изданий заказчика</div></div>       
+                    <div class="row"><div class="col">Присвоение номера ISBN</div></div> 
+                    </div>
+
+                    <form method="POST"enctype="multipart/form-data" action="polygraph_service">
+                        {% csrf_token %}  
+                        <div class="container d-flex justify-content-center" id="app-1">
+                            <div class="form-group">
+                                <button class="btn btn-primary" @click.prevent="load = !load">
+                                    Выбрать документ
+                                </button>
+                            </div>
+
+                            <div class="customModal-1" v-if="load">
+                                <div class="customModalTitle">
+                                    <button class="close" @click.prevent="load = !load">&times;</button>
+                                Печать
+                                </div>
+
+                                <div class="customModalBody">   
+                                    <div>Загрузите документ необходимый для печати</div>
+                                </div>
+
+                                <div class="">  
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <select v-model="selectedDocuments" multiple>
+                                                <option v-for="document in documents" v-bind:value="document">
+                                                    {% verbatim %}
+                                                    {{ document.title }}
+                                                    {% endverbatim %}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-3">
+                                            <img src="{% static 'images/ornament_2.svg' %}" width="100%" height="100%">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div><i class="bi bi-pin" style="font-size: 2rem;"></i> Выбранные документы</div>
+                                            <ul>
+                                                <li v-for="document in selectedDocuments">
+                                                    {% verbatim %}
+                                                    {{document.title}}
+                                                    {% endverbatim %}
+                                                    <button class="btn btn-primary" v-on:click="removeElement(key)">Удалить</button>
+                                                </li> 
+                                            </ul>
+                                        </div>
+                                        <div class="col-6">
+                                            <i class="bi bi-sort-numeric-up" style="font-size: 2rem; "></i> 
+                                            Количество экземпляров
+                                            <input name="quantity" type="number" min="0" pattern="^[1-9]{1}[0-9]*$" required>
+                                        </div>
+                                    </div>
+                                    
+
+                                    <div>
+                                        <i class="bi bi-map" style="font-size: 2rem;"></i> 
+                                        <input name="address" type="text" placeholder="Введите адрес доставки" required>
+                                    </div>
+                                    <div>
+                                        <i class="bi bi-file-earmark-plus" style="font-size: 2rem;"></i>              
+                                        <input name="document" type="file" required>
+                                    </div>  
+                                    <div class="d-flex justify-content-center">
+                                        <button class="btn btn-primary">
+                                            Отправить<i class="bi bi-file-earmark-check" style="font-size: 1rem; "></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>       
+                        </div>                      
+                    </form>
+                </div>
+
+                <div class="col-2">
+                    <div class="test-2">
+                    <img src="{% static 'images/ornament_6.svg' %}" width="100%" height="100%"> </div>
+                </div>
+
+                <div class="col-3 sidebar">
+                    Полиграфические услуги —
+                    это комплекс действий, направленных на создание полиграфических изделий, 
+                    начиная от разработки концепции и создания макета до непосредственного их изготовления. 
+                    Услугами типографий с каждым годом пользуются все больше людей, 
+                    и если ранее к услугам типографии прибегали лишь компании и различные организации, 
+                    то на сегодняшний день клиентами типографий являются и частные лица. 
+                    Таким образом, полиграфические услуги нынче актуальны как никогда и 
+                    очень востребованы в современном мире.
+                </div>
+            </div>      
+        </div>
+    </div>
+
+
+    <div class="footer">
+        <div class="d-flex justify-content-center">
+            2020 Copyright:
+            <a href="mailto:40cnti@rosenergo.gov.ru"><div class="footer-mail">40cnti@rosenergo.gov.ru</div></a>
+        </div>
+    </div>
+
+
+    <script src="https://unpkg.com/vue"></script>
+    <script src="{% static 'js/polygraph.js' %}"></script>
+
+  </body>
+</html>
