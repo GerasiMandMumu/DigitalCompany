@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <title>Обратная связь</title>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/feedback.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+  </head>
+  
+  <body>
+
+    <form action="contactView" method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+      <div>
+        <label for="id_subject">Тема:</label>
+        {{ form.subject.errors }}
+        {{ form.subject }}
+      </div>
+
+      <div>
+        <label for="id_sender">E-mail:</label>
+        {{ form.sender.errors }}
+        {{ form.sender }}
+      </div>
+
+      <div>
+        <label for="id_message">Сообщение:</label>
+        {{ form.message.errors }}
+        {{ form.message }}
+      </div>
+      
+      <div>
+        {{ form.copy.errors }}
+        <label for="id_copy">Отправить копию себе {{ form.copy }}</label>
+      </div>
+
+      <input type="submit" value="Отправить"/>
+      
+    </form>
+
+  </body>
+</html>
+

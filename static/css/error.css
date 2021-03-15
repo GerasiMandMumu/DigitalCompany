@@ -1,0 +1,21 @@
+.main{
+    font-weight: bold;
+    font-style: oblique;
+}
+.content{
+    border-bottom-style: solid;
+    border-radius: 20%;
+}
+.content-1{
+    font-size: 800%;
+    font-family:sans-serif;
+    color:white;
+    text-shadow: red 1px 0px, red 1px 1px, red 0px 1px, red -1px 1px, red -1px 0px, red -1px -1px, red 0px -1px, red 1px -1px;
+}
+.content-2{
+    font-size: 500%;
+    font-family:monospace;
+}
+.content-3{
+    font-size: 200%;
+}

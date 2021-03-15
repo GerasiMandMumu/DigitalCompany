@@ -1,0 +1,25 @@
+.btn {
+	outline: none !important;
+}	 
+.btn.btn-primary {
+	background-color: #004d00;
+	outline: none;
+}
+.btn.btn-primary:hover {
+	background-color: #57c206;
+}
+.btn.btn-primary:active, .btn.btn-primary:focus {
+	background-color:#8afa34;
+}
+.btn.btn-primary .fa {
+	padding-right: 4px;
+}
+.btn{
+	-webkit-transition: .4s ease-in-out;
+	-moz-transition: .4s ease-in-out;
+	-o-transition: .4s ease-in-out;
+	transition: .4s ease-in-out;
+}
+.main{
+	border-style:groove;
+}
