@@ -16,10 +16,10 @@
     <div class="header">
         <div class="d-flex">
             <div class="col-5 d1">
-                <form>
+                <form action="{% url 'search_result' %}" method="get">
                     <input type="search" name="quary" placeholder="Поиск по сайту"> 
                     <button>
-                        <i class="bi bi-search" style="font-size: 1rem; "></i>
+                        <i class="bi bi-search" style="font-size: 1rem;"></i>
                     </button>
                 </form>
             </div>
@@ -80,6 +80,7 @@
                             <div class="fields-2">
                                 <input type="email" name="email" placeholder="Email" class="form-control" required><br>
                                 <input type="password" name="password" placeholder="Пароль" class="form-control" required>
+                                <a href="forgot_password">Не помню пароль</a>
                             </div>
                             <br>
                             <div class="register-button-2 d-flex justify-content-center">
@@ -114,10 +115,10 @@
         <div class="container-fluid">
             <div class="navigation">
                 <div class="row">
-                    <div class="col"><a href="main"><div class="nav-item">Главная</div></a></div>
-                    <div class="col"><a href="news"><div class="nav-item">Новости</div></a></div>
-                    <div class="col"><a href="about"><div class="nav-item">О компании</div></a></div>
-                    <div class="col"><a href="contacts"><div class="nav-item">Контакты</div></a></div>
+                    <div class="col style_prevu_kit" style='text-align: center;'><a href="main"><div class="nav-item">Главная</div></a></div>
+                    <div class="col style_prevu_kit"><a href="news"><div class="nav-item">Новости</div></a></div>
+                    <div class="col style_prevu_kit"><a href="about"><div class="nav-item">О компании</div></a></div>
+                    <div class="col style_prevu_kit"><a href="contacts"><div class="nav-item">Контакты</div></a></div>
                 </div>
             </div>
 
@@ -125,17 +126,30 @@
                 <div class="row">
                     <div class="col-9">
                         <div class="d-flex flex-column">
-                            <div class="row images">
-                                <div class="col-5 image-item">
-                                    <img src="{% static 'images/patent_1.jpg' %}" width="100%" height="100%" alt="Защита интеллектуальной собственности">
+                            <div class="row images page">
+                                <div class="col-5 image-item page__container">
+                                    <div class="page__demo">
+                                        <a href="" class="mask mask_type1 mask_type1-a1 page__tile">
+                                            <img src="{% static 'images/patent_1.jpg' %}" class="mask_img" width="100%" height="100%" alt="Защита интеллектуальной собственности">
+                                        </a>
+                                    </div>
                                 </div>
-                                <div class="col-5 image-item">
-                                    <img src="{% static 'images/patent_2.jpg' %}" width="100%" height="100%" alt="Патентные услуги">
+                                <div class="col-5 image-item page__container">
+                                    <div class="page__demo">
+                                        <a href="" class="mask mask_type2 mask_type2-a1 page__tile">
+                                            <img src="{% static 'images/patent_2.jpg' %}"  class="mask_img"width="100%" height="100%" alt="Патентные услуги">
+                                        </a>
+                                    </div>
                                 </div>
-                                <div class="col-2 image-item">
-                                    <img src="{% static 'images/printer.jpeg' %}" width="100%" height="100%" alt="Полиграфические услуги">
+                                <div class="col-2 image-item page__container">
+                                    <div class="page__demo">
+                                        <a href="" class="mask mask_type3 mask_type3-a1 page__tile">
+                                            <img src="{% static 'images/printer.jpeg' %}" class="mask_img" width="100%" height="100%" alt="Полиграфические услуги">
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
+
                             <div class="content-center">
                                 <p>Калужский ЦНТИ – филиал ФГБУ «Российское энергетическое агентство» 
                                     Минэнерго России является региональным 

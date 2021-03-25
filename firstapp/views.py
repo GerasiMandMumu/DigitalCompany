@@ -7,31 +7,24 @@ from firstapp.models import Document, Application, News, Step
 from .forms import ContactForm
 
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.views import PasswordResetView
 
+from django.contrib.auth import get_user_model
+from django_email_verification import send_email
 
-from django.contrib.auth.views import password_reset
+from django.db.models import Q
+from django.views.generic import ListView
 
 # ВОССТАНОВЛЕНИЕ ПАРОЛЯ
 # забыл пароль
 def forgot_password(request):
     if request.method == 'POST':
-        return password_reset(request, 
-            from_email=request.POST.get('email'))
+        return PasswordResetView(request)
+        #return PasswordResetView(request, from_email=request.POST.get('email'))
+        #return password_reset(request, from_email=request.POST.get('email'))
     else:
-        return render(request, 'forgot_password.html')
-
-# Sign Up View
-class SignUpView(CreateView):
-    form_class = SignUpForm
-    success_url = reverse_lazy('login')
-    template_name = 'commons/signup.html'
-
-# Edit Profile View
-class ProfileView(UpdateView):
-    model = User
-    form_class = ProfileForm
-    success_url = reverse_lazy('home')
-    template_name = 'commons/profile.html'
+        return render(request, "forgot_password.html")
+        
 
 # ПОДТВЕРЖДЕНИЕ ПОЧТЫ
 def generate_code():
@@ -108,11 +101,51 @@ def endreg(request):
             form = MyActivationCodeForm()
             return render(request, 'registration/activation_code_form.html', {'form': form})
 
-######################################3
+def signup(request):
+    User = get_user_model()
+    if request.method == 'POST':
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data.get('email')
+            if Yourmodel.objects.filter(email__iexact=email).count() == 1:
+                user = form.save(commit=False)
+                user.is_active = False
+                user.save()
+                current_site = get_current_site(request)
+                mail_subject = 'Activate your account.'
+                message = render_to_string('email_template.html', {
+                            'user': user,
+                            'domain': current_site.domain,
+                            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                            'token': account_activation_token.make_token(user),
+                        })
+                to_email = form.cleaned_data.get('email')
+                send_mail(mail_subject, message, 'youremail', [to_email])
+                return HttpResponse('Please confirm your email address to complete the registration')
+    else:
+        form = SignupForm()
+    return render(request, 'regform.html', {'form': form})
+
+def activate(request, uidb64, token):
+    User = get_user_model()
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+    else:
+        return HttpResponse('Activation link is invalid!')
+
+######################################
 
 # главная страница
 def index(request):
     return redirect(main)
+
 def main(request):
     try:
         s = request.session["email"]
@@ -121,14 +154,42 @@ def main(request):
     except:
         user = 0
         return render(request, "main.html", {'user':user})
-
 def news(request):
-    news = News.objects.all()
-    return render(request, "news.html", {'news': news})
+    try:
+        s = request.session["email"]
+        user = User.objects.get(email=s)
+        news = News.objects.all()
+        return render(request, "news.html", {'news': news, 'user':user})
+    except:
+        user = 0
+        news = News.objects.all()
+        return render(request, "news.html", {'news': news, 'user':user})
 def about(request):
-    return render(request, "about.html")
+    try:
+        s = request.session["email"]
+        user = User.objects.get(email=s)
+        return render(request, "about.html", {'user':user})
+    except:
+        user = 0
+        return render(request, "about.html", {'user':user})
 def contacts(request):
-    return render(request, "contacts.html")
+    try:
+        s = request.session["email"]
+        user = User.objects.get(email=s)
+        return render(request, "contacts.html", {'user':user})
+    except:
+        user = 0
+        return render(request, 'contacts.html', {'user':user})
+def unit_news(request, id):
+    try:
+        s = request.session["email"]
+        user = User.objects.get(email=s)
+        news_u = News.objects.get(id=id)
+        return render(request, 'unit_news.html', {'news_u': news_u, 'user':user})
+    except:
+        user = 0
+        news_u = News.objects.get(id=id)
+        return render(request, 'unit_news.html', {'news_u': news_u, 'user':user})
 def education(request):
     try:
         s = request.session["email"]
@@ -137,12 +198,22 @@ def education(request):
     except:
         msg = 'Вы не авторизовались'
         return render(request, 'error.html', {'msg': msg})
-        
+
+# ПОИСК
+class SearchResultsView(ListView):
+    model = News
+    template_name = 'search_result.html'
+    def get_queryset(self): # новый
+        query = self.request.GET.get('quary')
+        object_list = News.objects.filter(Q(title__icontains=query) | Q(content__icontains=query))
+        print(object_list)
+        return object_list      
+
 
 # вход\выход
 # регистрация
 def register_view(request):
-    try:
+    #try:
         if request.method == "POST":	
             # регистрация пользователя
             user = User()	
@@ -151,15 +222,17 @@ def register_view(request):
             user.username = request.POST.get("email")
             user.password = request.POST.get("password")
             user.email = request.POST.get("email")
+            user.is_active = False  # Example
+            send_email(user)
             user.save()
             # запись в сессию
-            user = authenticate(email=user.email, password=user.password)
+            #user = authenticate(email=user.email, password=user.password)
             #login(request, user)
-            #request.session["email"] = user.email
-            #request.session["password"] = user.password    
+            request.session["email"] = user.email
+            request.session["password"] = user.password    
             return redirect(account)
-    except:
-        return render(request, 'error.html')
+    #except:
+        #return render(request, 'error.html')
 # авторизация
 def aut(request):
     try:
@@ -225,7 +298,8 @@ def polygraph_service(request):
             doc.address = request.POST['address']
             doc.user = user
             doc.status = 'на рассмотрении'
-            doc.save()
+            print(doc)
+            #doc.save()
             return redirect(polygraph_service)
         return render(request, 'polygraph_service.html', {'user': user})
     except:
@@ -302,8 +376,9 @@ def settings(request):
 # изменение данных профиля
 def edit(request, id):
     try:
-        s = request.session["email"]
-        user = User.objects.get(email=s)
+        #s = request.session["email"]
+        #user = User.objects.get(email=s)
+        user = User.objects.get(id=id)
         if request.method == "POST":
             user.first_name = request.POST.get("first_name")
             user.last_name = request.POST.get("last_name")
@@ -318,7 +393,7 @@ def edit(request, id):
 
 # ЗАЯВЛЕНИЯ
 def view_declarations(request):
-    try:
+    #try:
         s = request.session["email"]
         usr = User.objects.get(email=s)
         polygraph_s = {}
@@ -330,9 +405,9 @@ def view_declarations(request):
         if patent:
             patent_s = Application.objects.filter(user=usr)
         return render(request, "view_declarations.html", {'user': usr, 'polygraph_s': polygraph_s, 'patent_s': patent_s})
-    except:
-        msg = 'Вы не авторизовались'
-        return render(request, 'error.html', {'msg': msg}) 
+    #except:
+        #msg = 'Вы не авторизовались'
+        #return render(request, 'error.html', {'msg': msg}) 
 
 
 

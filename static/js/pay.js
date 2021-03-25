@@ -1,4 +1,11 @@
-var button = $ipsp.get('button');
-      button.setMerchantId(1396424);
-      button.setAmount('200', 'RUB');
-      button.setHost('pay.fondy.eu');
+var polygraph = $ipsp.get('button');
+polygraph.setMerchantId( 1396424);
+polygraph.setAmount('500', 'USD', true);
+polygraph.setHost('pay.fondy.eu');
+polygraph.setRecurringState(true);
+
+var patent = $ipsp.get('button');
+patent.setMerchantId( 1396424);
+patent.setAmount('5000', 'USD', true);
+patent.setHost('pay.fondy.eu');
+patent.setRecurringState(true);

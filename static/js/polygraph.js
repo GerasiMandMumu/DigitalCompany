@@ -12,9 +12,9 @@ new Vue({
     data: {
         documents:[
             {title:'Doc1'},
-            {title:'Doc1'},
-            {title:'Doc1'},
-            {title:'Doc1'}
+            {title:'Doc2'},
+            {title:'Doc3'},
+            {title:'Doc4'}
         ],
         selectedDocuments:[],
         text: '',

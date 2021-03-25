@@ -90,6 +90,34 @@ a:hover{
 }
 
 /*MAIN------------------------------------------------------------------*/
+
+.style_prevu_kit
+{
+    -webkit-transition: all 100ms ease-in;
+    -webkit-transform: scale(1); 
+    -ms-transition: all 100ms ease-in;
+    -ms-transform: scale(1); 
+    -moz-transition: all 100ms ease-in;
+    -moz-transform: scale(1);
+    transition: all 100ms ease-in;
+    transform: scale(1);   
+
+}
+.style_prevu_kit:hover
+{
+    box-shadow: 0px 0px 10vh #000000;
+    z-index: 2;
+    -webkit-transition: all 100ms ease-in;
+    -webkit-transform: scale(1.2);
+    -ms-transition: all 100ms ease-in;
+    -ms-transform: scale(1.2);   
+    -moz-transition: all 100ms ease-in;
+    -moz-transform: scale(1.2);
+    transition: all 100ms ease-in;
+    transform: scale(1.2);
+}
+
+
 .navigation .col{
 	transition: 0.45s linear;
 	border-style:solid;
@@ -122,9 +150,105 @@ a:hover{
 	font-size: 110%;
 	text-align: justify;
 }
-.image-item img{
-	border-style:double;
-}
+
+/*
+Изображения
+*/
+.mask{
+	--uiMaskClipPath: var(--maskClipPath);
+	box-sizing: var(--maskBoxSizing, border-box);
+	display: var(--maskDisplay, inline-flex);
+	padding: var(--maskStrokeThickness, 3px);
+	clip-path: var(--uiMaskClipPath);
+	background-color: var(--maskStrokeColor, currentColor);
+  }
+  .page__tile{ 
+	width: 21vw; 
+	height: 30vh; 
+  }
+  .mask__img{
+	max-width: 100%;
+	display: block;
+	clip-path: var(--uiMaskClipPath);
+  }
+  .mask, .mask__img{
+	transition: clip-path var(--maskAnimationDuration, .2s) var(--maskAnimationTimingFunction, ease-out);
+  }
+  .mask{
+	--maskStrokeColor: #ecebef;
+	--maskStrokeThickness: 5px;
+  }
+  
+  .page{
+	box-sizing: border-box;
+	width: 100%;
+	padding: 2vh;
+	margin: auto;  
+	text-align: center;
+	display: grid; 
+	grid-gap: 3rem; 
+	grid-template-columns: repeat(auto-fit, 40vh);
+	justify-content: center;
+  }
+  
+  /* effect 1*/
+  .mask_type1{
+	--maskClipPath: polygon(0 10%, 10% 0, 90% 0, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0 90%);
+  }
+  .mask_type1-a1{
+	--maskAnimationDuration: .4s;
+  }
+  .mask_type1:hover, .mask_type1:focus{
+	--maskClipPath: polygon(0 0, 100% 0, 100% 10%, 100% 100%, 90% 100%, 0% 100%, 0% 90%, 0% 10%);
+  }
+  
+  /* effect 2*/
+  .mask_type2{
+	--maskClipPath: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  }
+  .mask_type2-a1{
+	--maskAnimationDuration: .4s;
+  }
+  .mask_type2:hover, .mask_type2:focus{
+	--maskClipPath: polygon(100% 0, 100% 50%, 100% 100%, 0 100%, 0% 50%, 0 0);
+  }
+  
+  /* effect 3*/
+  .mask_type3{
+	--maskClipPath: polygon(0 10%, 10% 10%, 10% 0, 90% 0, 90% 10%, 100% 10%, 100% 90%, 90% 90%, 90% 100%, 10% 100%, 10% 90%, 0 90%);
+  }
+  .mask_type3-a1{
+	--maskAnimationDuration: .5s
+  }
+  .mask_type3:hover, .mask_type3:focus{
+	--maskClipPath: polygon(90% 0, 100% 0, 100% 10%, 100% 90%, 100% 100%, 90% 100%, 10% 100%, 0 100%, 0 90%, 0 10%, 0 0, 10% 0);
+  }
+  
+  /* effect 4*/
+  .mask_type4{
+	--maskClipPath: polygon(0 50%, 50% 0, 100% 50%, 50% 100%);
+  }
+  .mask_type4:hover, .mask_type4:focus{
+	--maskClipPath: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  
+  /* effect 5*/
+  
+  .mask_type1-a2{
+	--maskAnimationDuration: .5s;
+  }
+  .mask_type1-a2:hover, .mask_type1-a2:focus{
+	--maskClipPath: polygon(0 0, 90% 0, 100% 0, 100% 90%, 100% 100%, 10% 100%, 0 100%, 0 10%); 
+  }
+  
+  /* effect 6*/
+  
+  .mask_type2-a2{
+	--maskAnimationDuration: .9s;
+	--maskAnimationTimingFunction: cubic-bezier(1, 0.18, 0, 1.14);
+  }
+
+
 .content-center{
 	margin-top: 1%;
 }
@@ -147,7 +271,12 @@ a:hover{
 	border-right-style: double;
 	text-align: justify;
 }
-
+.xpandable-block {
+	height: 10vh;
+	overflow: hidden;
+	order: 0;
+  }
+  
 .building{
 	border-style:double;
 }
@@ -161,6 +290,96 @@ a:hover{
 	transition: .6s ease-in-out;
 }
 
+
+.wrapper{
+	text-decoration: none;
+}
+.wrapper{
+    display: flex;
+    justify-content: center;
+}
+.wrapper .icon{
+    position: relative;
+    background-color: #ffffff;
+    border-radius: 50%;
+    width: 10vh;
+    height: 10vh;
+    font-size: 5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: 1vh 1vh 1vh 1vh #000000;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.wrapper a{
+	padding: 5vh;
+}
+.wrapper .tooltip{
+    position: absolute;
+    top: 0;
+    font-size: 100%;
+    background-color: #ffffff;
+    color: #ffffff;
+    border-radius:1vh;
+    box-shadow: 0 2vh 2vh rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.wrapper .tooltip::before{
+    position: absolute;
+    content:"";
+    background-color: #ffffff;
+    left: 50%;
+    transform: translate(-50%) rotate(45deg);
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.wrapper .icon:hover .tooltip{
+    top: -8vh;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+.icon i{
+	font-size: 1.5rem;
+}
+.wrapper .icon:hover span,
+.wrapper .icon:hover .tooltip{
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
+}
+
+.wrapper .whatsapp:hover, 
+.wrapper .whatsapp:hover .tooltip,
+.wrapper .whatsapp:hover .tooltip::before{
+    background-color: #25d366;
+    color: #ffffff;
+}
+.wrapper .github:hover, 
+.wrapper .github:hover .tooltip,
+.wrapper .github:hover .tooltip::before{
+    background-color: #333333;
+    color: #ffffff;
+}
+.wrapper .telegram:hover, 
+.wrapper .telegram:hover .tooltip,
+.wrapper .telegram:hover .tooltip::before{
+    background-color: #0088cc;
+    color: #ffffff;
+}
+.wrapper .youtube:hover, 
+.wrapper .youtube:hover .tooltip,
+.wrapper .youtube:hover .tooltip::before{
+    background-color: #de463b;
+    color: #ffffff;
+}
+.wrapper .linkedin:hover, 
+.wrapper .linkedin:hover .tooltip,
+.wrapper .linkedin:hover .tooltip::before{
+    background-color: #0e76a8;
+    color: #ffffff;
+}
 
 /*FOOTER------------------------------------------------------------------*/
 .footer{

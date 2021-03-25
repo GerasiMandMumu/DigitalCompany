@@ -5,28 +5,43 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"> 
     <title>Ошибка</title>
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/error.css' %}" >
+    <link href="{% static 'css/error.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
   </head>
-  
-  <body>  
-    <div class="main container-fluid">
+  <body>
 
-        <div class="content d-flex justify-content-center">
-            <div class="content-1">Ошибка 404</div>   
-        </div>
-        
-        <br>
-        
-        <div class="d-flex justify-content-center content-2">Что-то пошло не так</div>
-
-        <div class="ornament d-flex justify-content-center">
-            <img src="{% static 'images/o.svg' %}" width="90%">
-        </div>
-
-        <div class="content-3 d-flex justify-content-center">
-            <div class="d-flex">Страницы не существует или она была удалена</div>   
+    <div class="main">
+      <div class="content">
+        <div class="content-1 d-flex justify-content-center">Ошибка</div>   
+      </div>
+      <div class="content-2 d-flex justify-content-center">{{msg}}</div>
+      <div class="container d-flex justify-content-center">
+        <a href="main">Главная</a>
+        <i class="bi bi-arrow-right"></i>
+        <div class="bg-1"></div>
+      </div>
+    </div>
+    
+    <div class="outer">
+        <div class="hovereffect">
+            <img src="{% static 'images/test3.jpg' %}" alt="">            
+            <div class="overlay">
+                <h2>Наши контакты</h2>
+                <div class="rotate">
+                    <p class="group1">
+                        <a href="https://twitter.com/"><i class="fa fa-twitter"></i></a>
+                        <a href="https://ru-ru.facebook.com/"><i class="fa fa-facebook"></i></a>
+                    </p>
+                    <hr>
+                    <hr>
+                    <p class="group2">
+                        <a href="https://www.instagram.com/"><i class="fa fa-instagram"></i></a>
+                        <a href="https://www.championat.com/"><i class="fa fa-dribbble"></i></a>
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
   </body>
