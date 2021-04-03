@@ -130,6 +130,13 @@ input{
 	border-style: solid;
 }
 
+.ask_question{
+
+}
+.answer_question{
+	
+}
+
 /*FOOTER-------------------------------------------------------*/
 .footer{
 	background: linear-gradient(180deg, #ffffff, #3bb08f);

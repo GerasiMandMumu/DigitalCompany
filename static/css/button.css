@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Srirach&display=swap');
+
+.btn-a{
+    width: 25vh;
+    height: 9vh;
+    font-size: 1.1rem;
+    background: #383838;
+    border:none;
+    outline: none;
+    color:white;
+    border: 1% solid #696969;
+    cursor: pointer;
+    font-family: 'Sriracha', cursive;
+    transition: all 0.4s;
+}
+.btn-a:hover{
+    box-shadow: inset 0 0 0 5px #252525, inset 0 0 0 10px #6930c3, inset 0 0 0 15px #64dfdf;
+}

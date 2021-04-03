@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import logout
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
-from firstapp.models import Document, Application, News, Step
+from firstapp.models import Document, Application, News, Step, UserQuestion
 from .forms import ContactForm
 
 from django.contrib.auth import authenticate, login
@@ -136,9 +136,9 @@ def activate(request, uidb64, token):
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
-        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+        return HttpResponse('Сейчас вы можете подтвердить свою запись')
     else:
-        return HttpResponse('Activation link is invalid!')
+        return HttpResponse('Ссылка на активацию недействительна!')
 
 ######################################
 
@@ -197,6 +197,18 @@ def education(request):
         return render(request, "content.html", {'user': user}) 
     except:
         msg = 'Вы не авторизовались'
+        return render(request, 'error.html', {'msg': msg})
+
+# задать вопрос
+def ask_question(request):
+    try:
+        if request.method == 'POST':
+            common_question = CommonQuestion()
+            common_question.question = request.POST['question']
+            common_question.answer = ''
+            common_question.save()
+    except:
+        msg = 'Неизвестная ошибка'
         return render(request, 'error.html', {'msg': msg})
 
 # ПОИСК
@@ -285,6 +297,36 @@ def services(request):
         msg = 'Вы не авторизовались'
         return render(request, 'error.html', {'msg': msg})
 
+# консультация
+def consult_view(request):
+    s = request.session["email"]
+    user = User.objects.get(email=s)
+    q = UserQuestion.objects.filter(user=user).exists()
+    questions = {}
+    if q:
+        questions = UserQuestion.objects.filter(user=user)
+    return render(request, 'consultation.html', {'questions':questions, 'user':user})
+
+def get_consultation(request):
+    try:
+        s = request.session["email"]
+        user = User.objects.get(email=s)
+        if request.method == 'POST':
+            user_question = UserQuestion()
+            user_question.user = user
+            user_question.question = request.POST['question']
+            user_question.answer = ''
+            user_question.save()
+            q = UserQuestion.objects.filter(user=user).exists()
+            questions = {}
+            if q:
+                questions = UserQuestion.objects.filter(user=user)
+            return redirect(consult_view)
+            #return render(request, 'consultation.html', {'questions':questions, 'user':user})
+    except:
+        msg = 'Вы не авторизовались'
+        return render(request, 'error.html', {'msg': msg})
+
 # ПОЛИГРАФИЧЕСКИЕ УСЛУГИ
 # загрузка документа для печати
 def polygraph_service(request):
@@ -320,7 +362,6 @@ def patent_service(request):
             inv.email = request.POST["email"]
             inv.applicants_address = request.POST["applicants_address"]
             inv.authors_address = request.POST["authors_address"]
-            
             inv.information = request.POST["information"]
             inv.image = request.FILES['image']
             inv.agreement = request.FILES['agreement']
@@ -393,7 +434,7 @@ def edit(request, id):
 
 # ЗАЯВЛЕНИЯ
 def view_declarations(request):
-    #try:
+    try:
         s = request.session["email"]
         usr = User.objects.get(email=s)
         polygraph_s = {}
@@ -405,9 +446,9 @@ def view_declarations(request):
         if patent:
             patent_s = Application.objects.filter(user=usr)
         return render(request, "view_declarations.html", {'user': usr, 'polygraph_s': polygraph_s, 'patent_s': patent_s})
-    #except:
-        #msg = 'Вы не авторизовались'
-        #return render(request, 'error.html', {'msg': msg}) 
+    except:
+        msg = 'Вы не авторизовались'
+        return render(request, 'error.html', {'msg': msg}) 
 
 
 

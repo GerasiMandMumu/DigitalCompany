@@ -49,7 +49,11 @@ urlpatterns = [
 	path('edit/<int:id>/', views.edit),
     # заявления
     path('view_declarations', views.view_declarations),
+    # консультация
+    path('consult_view', views.consult_view),
+    path('get_consultation', views.get_consultation),
 
+    
     # обратная связь
     path('contactView', views.contactView),
 

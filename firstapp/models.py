@@ -53,3 +53,13 @@ class Step(models.Model):
     question = models.TextField()
     answers = models.TextField()
     right_answer = models.TextField()
+
+class UserQuestion(models.Model):
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING) # привязка к пользователю
+    question = models.TextField() # пользовательский запрос
+    answer = models.TextField() # ответ администратора
+
+class CommonQuestion(models.Model):
+    question = models.TextField() # пользовательский запрос
+    answer = models.TextField() # ответ администратора
+
